@@ -1,9 +1,10 @@
-package hr.hackaton.codebandits;
+package hr.hackaton.codebandits.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 public class DonationLocation {
     @Id
@@ -12,4 +13,7 @@ public class DonationLocation {
 
     @Column(nullable = false)
     private Location location;
+
+    @Column
+    private List<Person> donators;
 }

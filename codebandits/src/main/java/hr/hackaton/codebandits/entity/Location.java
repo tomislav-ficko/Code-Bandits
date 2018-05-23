@@ -1,4 +1,4 @@
-package hr.hackaton.codebandits;
+package hr.hackaton.codebandits.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
