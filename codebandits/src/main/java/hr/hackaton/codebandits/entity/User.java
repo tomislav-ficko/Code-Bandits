@@ -1,13 +1,29 @@
 package hr.hackaton.codebandits.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class User extends Person {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     private Date birthDate;
+
+    @Column
     private Sex sex;
+
+    @Column
     private BloodType bloodType;
+
+    @Column
+    @OneToMany
     private List<DonatingLocation> donatingLocations;
+
+    @Column
     private Integer noOfDonations = 0;
 
     public Date getBirthDate() {

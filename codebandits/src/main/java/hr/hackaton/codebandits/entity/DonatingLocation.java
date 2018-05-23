@@ -1,9 +1,6 @@
 package hr.hackaton.codebandits.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,22 +13,22 @@ public class DonatingLocation {
     private Location location;
 
     @Column
-
-    private List<Person> donators;
+    @OneToMany
+    private List<User> donators;
 
     public Location getLocation() {
         return location;
     }
 
-    public List<Person> getDonators() {
+    public List<User> getDonators() {
         return donators;
     }
 
-    public void setDonators(List<Person> donators) {
+    public void setDonators(List<User> donators) {
         this.donators = donators;
     }
 
-    public DonatingLocation(Location location, List<Person> donators) {
+    public DonatingLocation(Location location, List<User> donators) {
         this.location = location;
         this.donators = donators;
     }
