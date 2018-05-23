@@ -1,13 +1,26 @@
 package hr.hackaton.codebandits.algorithm;
 
-import hr.hackaton.codebandits.BloodType;
-import hr.hackaton.codebandits.User;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import hr.hackaton.codebandits.entity.Person;
+import hr.hackaton.codebandits.entity.User;
+import org.datavec.api.records.reader.RecordReader;
+import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
+import org.datavec.api.split.FileSplit;
+import org.datavec.api.util.ClassPathResource;
+import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.DenseLayer;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
+import org.deeplearning4j.nn.weights.WeightInit;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.dataset.api.DataSet;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Algorithm {
 
@@ -47,7 +60,7 @@ public class Algorithm {
         sI = new ArrayList<>();
     }
 
-    public List<User> getDonatorsWeek(List<User> users, BloodStock z0) {
+    public List<Person> getDonatorsWeek(List<Person> users, BloodStock z0) {
         zI.add(z0);
         // zadana funkcija gubitka minimalna
 
@@ -64,6 +77,38 @@ public class Algorithm {
 
             }
         }
+
+        try (RecordReader recordReader = new CSVRecordReader(0, ',')) {
+            recordReader.initialize(new FileSplit(
+                    new ClassPathResource("test.txt").getFile()));
+
+
+            DataSetIterator iterator = new RecordReaderDataSetIterator(
+                    recordReader, 150);
+            DataSet allData = iterator.next();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        MultiLayerConfiguration configuration
+                = new NeuralNetConfiguration.Builder()
+                .iterations(1000)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.XAVIER)
+                .learningRate(0.1)
+                .regularization(true).l2(0.0001)
+                .list()
+                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).build())
+                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).build())
+                .layer(2, new OutputLayer.Builder(
+                        LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                        .activation(Activation.SOFTMAX)
+                        .nIn(3).nOut(3).build())
+                .backprop(true).pretrain(false)
+                .build();
+
         return null;
     }
 
