@@ -1,4 +1,4 @@
-package hr.hackaton.codebandits;
+package hr.hackaton.codebandits.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
