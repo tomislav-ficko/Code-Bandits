@@ -1,11 +1,23 @@
 package hr.hackaton.codebandits.entity;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Institution {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     private String name;
+
+    @OneToOne
     private Location institutionLocation;
-    private List<User> institutionUsers;
+
+    @Column
+    @OneToMany
+    private List<Person> institutionPersons;
 
     public String getName() {
         return name;
@@ -15,17 +27,17 @@ public class Institution {
         return institutionLocation;
     }
 
-    public List<User> getInstitutionUsers() {
-        return institutionUsers;
+    public List<Person> getInstitutionPersons() {
+        return institutionPersons;
     }
 
-    public void setInstitutionUsers(List<User> institutionUsers) {
-        this.institutionUsers = institutionUsers;
+    public void setInstitutionPersons(List<Person> institutionPersons) {
+        this.institutionPersons = institutionPersons;
     }
 
-    public Institution(String name, Location institutionLocation, List<User> institutionUsers) {
+    public Institution(String name, Location institutionLocation, List<Person> institutionPersons) {
         this.name = name;
         this.institutionLocation = institutionLocation;
-        this.institutionUsers = institutionUsers;
+        this.institutionPersons = institutionPersons;
     }
 }
