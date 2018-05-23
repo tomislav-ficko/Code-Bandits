@@ -1,36 +1,26 @@
 package hr.hackaton.codebandits.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
 
-public class DonationLocation {
+@Entity
+public class DonatingLocation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private Location location;
 
     @Column
+
     private List<Person> donators;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Location getLocation() {
         return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public List<Person> getDonators() {
@@ -41,8 +31,7 @@ public class DonationLocation {
         this.donators = donators;
     }
 
-    public DonationLocation(Location location, List<Person> donators) {
-
+    public DonatingLocation(Location location, List<Person> donators) {
         this.location = location;
         this.donators = donators;
     }

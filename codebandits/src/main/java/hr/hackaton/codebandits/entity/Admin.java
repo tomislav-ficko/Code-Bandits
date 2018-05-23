@@ -1,12 +1,8 @@
 package hr.hackaton.codebandits.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.util.List;
 
-@Entity
 public class Admin extends Person {
-    @Column
     private List<Institution> institutions;
 
     public List<Institution> getInstitutions() {

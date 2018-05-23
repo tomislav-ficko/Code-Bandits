@@ -1,8 +1,7 @@
 package hr.hackaton.codebandits.entity;
 
-public class Location {
+public abstract class Location {
     private Double longitude;
-
     private Double latitude;
 
     public Double getLongitude() {

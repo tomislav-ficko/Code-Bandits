@@ -3,7 +3,7 @@ package hr.hackaton.codebandits.entity;
 import java.util.Map;
 
 public class Questionaire {
-    Map<String, Boolean> questions;
+    private Map<String, Boolean> questions;
 
     public Map<String, Boolean> getQuestions() {
         return questions;
