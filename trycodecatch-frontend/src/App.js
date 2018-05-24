@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
 import LoginScreen from './components/Loginscreen';
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+
+let donations = [{
+  date: '12.04.2018',
+  location : 'Zagreb'
+}];
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +17,7 @@ class App extends Component {
       loginPage: []
     }
   }
+
   componentWillMount() {
     var loginPage = [];
     loginPage.push(<LoginScreen appContext={this} />);
@@ -20,6 +25,7 @@ class App extends Component {
       loginPage: loginPage
     })
   }
+
   render() {
     return (
       <div className="App">

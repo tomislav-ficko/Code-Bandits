@@ -13,23 +13,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import Login from './Login';
-import './Register.css';
 
-const apiBaseUrl = "http://localhost:4000/api/";
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
+const apiBaseUrl = "http://6a8867d6.ngrok.io";
 
 class Register extends Component {
   constructor(props) {
@@ -46,10 +31,6 @@ class Register extends Component {
       gdpr: '',
       password: ''
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
   }
 
   handleClick(event) {
@@ -70,10 +51,10 @@ class Register extends Component {
         "gdpr": this.state.gdpr,
         "password": this.state.password
       }
-      axios.post(apiBaseUrl + '/register', payload)
+      axios.post(apiBaseUrl + '/register', { payload })
         .then(function (response) {
           console.log(response);
-          if (response.data.code === 200) {
+          if (response.status === 200) {
             //  console.log("registration successfull");
             var loginscreen = [];
             loginscreen.push(<Login parentContext={this} appContext={self.props.appContext} />);
@@ -181,7 +162,7 @@ class Register extends Component {
             />
             <br />
             <br />
-            <FormControl className="formControl">
+            <FormControl className="formControl" >
               <InputLabel >Blood type</InputLabel> <br />
               <Select
                 value={this.state.blood_type}
