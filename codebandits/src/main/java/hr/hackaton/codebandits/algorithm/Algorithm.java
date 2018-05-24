@@ -2,7 +2,6 @@ package hr.hackaton.codebandits.algorithm;
 
 
 import hr.hackaton.codebandits.entity.Person;
-import hr.hackaton.codebandits.entity.User;
 import org.datavec.api.records.reader.RecordReader;
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
 import org.datavec.api.split.FileSplit;
@@ -19,8 +18,7 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Algorithm {
 
@@ -38,6 +36,30 @@ public class Algorithm {
     private static BloodStock r;
     //stock of donated blood by blood types on the end of the week
     private static List<BloodStock> sI;
+
+    private static Map<Integer, List<Integer>> tableForCompatibilty;
+
+
+    public static void main(String[] args) {
+        initialize();
+        BloodStock z = new BloodStock(88, 177, 71, 145, 60, 36, 13, 26);
+        BloodStock s = corecctionBloodStock(z);
+        System.out.println(s.getList().toString());
+    }
+    
+    public static float distFrom(float lat1, float lng1, float lat2, float lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+        return dist;
+    }
+
+
 
 
     public static void initialize() {
@@ -58,7 +80,23 @@ public class Algorithm {
         );
         zI = new ArrayList<>();
         sI = new ArrayList<>();
+
+        tableForCompatibilty = new HashMap<>();
+
+        tableForCompatibilty.put(0, Arrays.asList(0)); //0 minus
+        tableForCompatibilty.put(1, Arrays.asList(0, 1)); // 0 plus
+        tableForCompatibilty.put(2, Arrays.asList(0, 2)); // A minus
+        tableForCompatibilty.put(3, Arrays.asList(0, 1, 2, 3)); // A plus
+        tableForCompatibilty.put(4, Arrays.asList(0, 4)); // B minus
+        tableForCompatibilty.put(5, Arrays.asList(0, 1, 4, 5)); // B plus
+        tableForCompatibilty.put(6, Arrays.asList(0, 2, 4, 6)); // AB minus
+        tableForCompatibilty.put(7, Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7)); //AB plus
+
+
     }
+
+
+
 
     public List<Person> getDonatorsWeek(List<Person> users, BloodStock z0) {
         zI.add(z0);
@@ -71,7 +109,7 @@ public class Algorithm {
                 z1.addElement(zI.get(weekCounter).getList().get(i) + sI.get(weekCounter).getList().get(i) - p.getList().get(i));
                 BloodStock newZI = corecctionBloodStock(zI.get(weekCounter));
                 int lossSum = 0;
-                for(int bloodType = 0; bloodType <= 7; bloodType++) {
+                for (int bloodType = 0; bloodType <= 7; bloodType++) {
                     lossSum += lossFunction(bloodType, newZI.getList().get(bloodType));
                 }
 
@@ -138,8 +176,51 @@ public class Algorithm {
         }
     }
 
-    public BloodStock corecctionBloodStock(BloodStock z) {
-        return null;
+    public static BloodStock corecctionBloodStock(BloodStock z) {
+        List zList = z.getList();
+        List minList = oMin.getList();
+        List maxList = oMax.getList();
+        List oList = oZ.getList();
+        List<BloodStock> zNew = new ArrayList<>();
+        zNew.addAll(zList);
+        for (int i = 0; i <= 7; i++) {
+            if ((int) zList.get(i) < (int) minList.get(i) || (int) zList.get(i) > (int) maxList.get(i)) {
+                System.out.println("done");
+                return z;
+            }
+        }
+
+        for (int i = 0; i <= 7; i++) {
+            // if there is less blood than optimal
+            System.out.println( zList.get(i) + " - " +  oList.get(i));
+            if ((int) zList.get(i) < (int) oList.get(i)) {
+                for (int j = 7; j >= 0; j++) {
+                    int amountToGive = (int) zList.get(j) - (int) oList.get(j);
+                    System.out.println(amountToGive);
+                    if (canDonate(i, j) && amountToGive > 0) {
+                        zList.set(j, (int) zList.get(j) - amountToGive);
+                        zList.set(i, (int) zList.get(i) + amountToGive);
+                        if ((int) zList.get(i) >= (int) oList.get(i)) {
+                            //break loop
+                            j = 7;
+                        }
+                    }
+                }
+            }
+        }
+
+        return z;
+    }
+
+    private static boolean canDonate(int bloodKey, int bloodValue) {
+        //check bloodTypes
+        List<Integer> values = tableForCompatibilty.get(bloodKey);
+
+        if (values.contains(bloodValue)) {
+            return true;
+        }
+
+        return false;
     }
 
 }

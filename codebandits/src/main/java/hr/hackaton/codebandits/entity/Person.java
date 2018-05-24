@@ -1,11 +1,14 @@
 package hr.hackaton.codebandits.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Person {
+
+    public Person() {
+    }
+
     @Id
     @GeneratedValue
     private Long id;
@@ -29,7 +32,7 @@ public class Person {
     private int password;
 
     @Column
-    private Date birthDate;
+    private String birthDate;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -74,7 +77,7 @@ public class Person {
         return password;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -110,29 +113,4 @@ public class Person {
         this.institutions = institutions;
     }
 
-    public Person(String name, String surname, String email, String phoneNumber, String userName, int password, Date birthDate, Sex sex, BloodType bloodType, List<DonatingLocation> donatingLocations, Integer noOfDonations) {
-
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.userName = userName;
-        this.password = password;
-        this.birthDate = birthDate;
-        this.sex = sex;
-        this.bloodType = bloodType;
-        this.donatingLocations = donatingLocations;
-        this.noOfDonations = noOfDonations;
-    }
-
-    public Person(String name, String surname, String email, String phoneNumber, String userName, int password, List<Institution> institutions) {
-
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.userName = userName;
-        this.password = password;
-        this.institutions = institutions;
-    }
 }
