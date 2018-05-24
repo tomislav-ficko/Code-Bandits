@@ -48,15 +48,15 @@ class Register extends Component {
         "userName": this.state.userName,
         "sex": this.state.gender,
         "birthDate": this.state.age,
-        "location": this.state.location,
+        //"location": this.state.location,
         "bloodType": this.state.blood_type,
-        "gdpr": this.state.gdpr,
+        //"gdpr": this.state.gdpr,
         "password": this.state.password
       }
-      axios.post(apiBaseUrl + '/users', { payload })
+      axios.post(apiBaseUrl + '/users', payload)
         .then(function (response) {
           console.log(response);
-          if (response.status === 201) {
+          /*if (response.status === 201) {
             //  console.log("registration successfull");
             var loginscreen = [];
             loginscreen.push(<Login parentContext={this} appContext={self.props.appContext} />);
@@ -65,12 +65,12 @@ class Register extends Component {
               loginscreen: loginscreen,
               loginmessage: loginmessage,
               buttonLabel: "Register",
-              isLogin: true
+              isLogin: false
             });
           }
           else {
             console.log("Some error ocurred", response.data.code);
-          }
+          }*/
         })
         .catch(function (error) {
           console.log(error);
@@ -177,14 +177,14 @@ class Register extends Component {
                 value={this.state.blood_type}
                 onChange={this.handleChangeBloodType}
               >
-                <option value="O-">O-</option>
-                <option value="O+">O+</option>
-                <option value="A-">A-</option>
-                <option value="A+">A+</option>
-                <option value="B-">B-</option>
-                <option value="B+">B+</option>
-                <option value="AB-">AB-</option>
-                <option value="AB+">AB+</option>
+                <option value="O_minus">O-</option>
+                <option value="O_plus">O+</option>
+                <option value="A_minus">A-</option>
+                <option value="A_plus">A+</option>
+                <option value="B_minus">B-</option>
+                <option value="B_plus">B+</option>
+                <option value="AB_minus">AB-</option>
+                <option value="AB_plus">AB+</option>
               </Select>
             </FormControl>
             <br />

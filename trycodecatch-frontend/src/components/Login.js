@@ -68,10 +68,10 @@ class Login extends Component {
   handleClick(event) {
     var self = this;
     var payload = {
-      "userid": this.state.username,
+      "userName": this.state.username,
       "password": this.state.password
     }
-    axios.post(apiBaseUrl + '/login', {payload})
+    axios.post(apiBaseUrl + '/login', payload)
       .then(function (response) {
         console.log(response);
         if (response.status === 200) {
