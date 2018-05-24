@@ -8,7 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios';
 import { Toolbar } from 'material-ui';
 import { Typography } from 'material-ui/styles';
-var apiBaseUrl = "http://localhost:4000/api/";
+
+const apiBaseUrl = "http://6a8867d6.ngrok.io/";
 
 
 class Login extends Component {
@@ -77,7 +78,7 @@ class Login extends Component {
       "userid": this.state.username,
       "password": this.state.password
     }
-    axios.post(apiBaseUrl + 'login', payload)
+    axios.get(apiBaseUrl + 'login', payload)
       .then(function (response) {
         console.log(response);
         if (response.data.code == 200) {
