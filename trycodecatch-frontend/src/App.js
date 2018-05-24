@@ -6,11 +6,6 @@ import Home from './components/Home';
 injectTapEventPlugin();
 
 
-let donations = [{
-  date: '12.04.2018',
-  location : 'Zagreb'
-}];
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +17,12 @@ class App extends Component {
 
   componentWillMount() {
     var loginPage = [];
-    //loginPage.push(<LoginScreen appContext={this} />);
-    loginPage.push(<Home appContext={this} />)
+    var homePage = [];
+    loginPage.push(<LoginScreen appContext={this} />);
+    homePage.push(<Home appContext={this} />)
     this.setState({
-      loginPage: loginPage
+      //loginPage: loginPage,
+      homePage: homePage
     })
   }
 
