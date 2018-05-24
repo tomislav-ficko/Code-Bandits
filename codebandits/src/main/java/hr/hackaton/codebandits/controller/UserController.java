@@ -1,5 +1,6 @@
 package hr.hackaton.codebandits.controller;
 
+import com.clearspring.analytics.util.Lists;
 import hr.hackaton.codebandits.boundary.PersonRepository;
 import hr.hackaton.codebandits.entity.BloodType;
 import hr.hackaton.codebandits.entity.Person;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,6 +16,11 @@ import java.util.List;
 public class UserController {
     @Autowired
     private PersonRepository personRepository;
+
+    @GetMapping("/users")
+    public List<Person> getAllUsers(@PathVariable String userName) {
+        return Lists.newArrayList(personRepository.findAll());
+    }
 
     @GetMapping("/users/{userName}")
     public Person findByUserName(@PathVariable String userName) {
