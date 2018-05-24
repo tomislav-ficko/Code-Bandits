@@ -13,23 +13,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import Login from './Login';
-import './Register.css';
 
-const apiBaseUrl = "http://localhost:4000/api/";
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
+const apiBaseUrl = "http://126fa68b.ngrok.io";
 
 class Register extends Component {
   constructor(props) {
@@ -37,6 +22,7 @@ class Register extends Component {
     this.state = {
       first_name: '',
       last_name: '',
+      userName: '',
       phone: '',
       email: '',
       gender: '',
@@ -48,32 +34,29 @@ class Register extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
-  }
-
   handleClick(event) {
     var self = this;
     //To be done:check for empty values before hitting submit
-    if (this.state.first_name.length > 0 && this.state.last_name.length > 0 && this.state.phone.length > 0
+    if (this.state.first_name.length > 0 && this.state.last_name.length > 0 && this.state.userName.length > 0 && this.state.phone.length > 0
       && this.state.email.length > 0 && this.state.gender.length > 0 && this.state.age.length > 0
       && this.state.location.length > 0 && this.state.gdpr.length > 0 && this.state.password.length > 0) {
       var payload = {
-        "first_name": this.state.first_name,
-        "last_name": this.state.last_name,
-        "phone": this.state.phone,
-        "userid": this.state.email,
-        "gender": this.state.gender,
-        "age": this.state.age,
+        "name": this.state.first_name,
+        "surname": this.state.last_name,
+        "phoneNumber": this.state.phone,
+        "email": this.state.email,
+        "userName": this.state.userName,
+        "sex": this.state.gender,
+        "birthDate": this.state.age,
         "location": this.state.location,
-        "blood_type": this.state.blood_type,
+        "bloodType": this.state.blood_type,
         "gdpr": this.state.gdpr,
         "password": this.state.password
       }
-      axios.post(apiBaseUrl + '/register', payload)
+      axios.post(apiBaseUrl + '/users', { payload })
         .then(function (response) {
           console.log(response);
-          if (response.data.code === 200) {
+          if (response.status === 201) {
             //  console.log("registration successfull");
             var loginscreen = [];
             loginscreen.push(<Login parentContext={this} appContext={self.props.appContext} />);
@@ -134,6 +117,13 @@ class Register extends Component {
             <br />
             <TextField
               required
+              hintText="Enter your user name"
+              floatingLabelText="Username*"
+              onChange={(event, newValue) => this.setState({ userName: newValue })}
+            />
+            <br />
+            <TextField
+              required
               hintText="Enter your phone number"
               floatingLabelText="Phone number*"
               onChange={(event, newValue) => this.setState({ phone: newValue })}
@@ -141,8 +131,8 @@ class Register extends Component {
             <br />
             <TextField
               required
-              hintText="Enter your username"
-              floatingLabelText="Username*"
+              hintText="Enter your email address"
+              floatingLabelText="Email*"
               onChange={(event, newValue) => this.setState({ email: newValue })}
             />
             <br />
@@ -181,20 +171,20 @@ class Register extends Component {
             />
             <br />
             <br />
-            <FormControl className="formControl">
+            <FormControl className="formControl" >
               <InputLabel >Blood type</InputLabel> <br />
               <Select
                 value={this.state.blood_type}
                 onChange={this.handleChangeBloodType}
               >
-                <option value="O_minus">O-</option>
-                <option value="O_plus">O+</option>
-                <option value="A_minus">A-</option>
-                <option value="A_plus">A+</option>
-                <option value="B_minus">B-</option>
-                <option value="B_Plus">B+</option>
-                <option value="AB_minus">AB-</option>
-                <option value="AB_plus">AB+</option>
+                <option value="O-">O-</option>
+                <option value="O+">O+</option>
+                <option value="A-">A-</option>
+                <option value="A+">A+</option>
+                <option value="B-">B-</option>
+                <option value="B+">B+</option>
+                <option value="AB-">AB-</option>
+                <option value="AB+">AB+</option>
               </Select>
             </FormControl>
             <br />

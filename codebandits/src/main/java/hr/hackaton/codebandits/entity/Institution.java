@@ -40,4 +40,7 @@ public class Institution {
         this.institutionLocation = institutionLocation;
         this.institutionPersons = institutionPersons;
     }
+
+    public Institution() {
+    }
 }

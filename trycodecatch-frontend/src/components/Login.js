@@ -3,13 +3,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios';
-import { Toolbar } from 'material-ui';
-import { Typography } from 'material-ui/styles';
+import Home from './Home'
 
-const apiBaseUrl = "http://6a8867d6.ngrok.io/";
+const apiBaseUrl = "http://126fa68b.ngrok.io";
 
 
 class Login extends Component {
@@ -39,37 +36,33 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      menuValue: 1,
       loginComponent: localloginComponent
     }
   }
 
   componentWillMount() {
-    if (this.props.role != undefined) {
-      var localloginComponent = [];
-      localloginComponent.push(
-        <MuiThemeProvider>
-          <div>
-            <TextField
-              hintText="Enter your username"
-              floatingLabelText="Username"
-              onChange={(event, newValue) => this.setState({ username: newValue })}
-            />
-            <br />
-            <TextField
-              type="password"
-              hintText="Enter your Password"
-              floatingLabelText="Password"
-              onChange={(event, newValue) => this.setState({ password: newValue })}
-            />
-            <br />
-            <RaisedButton label="Login" primary={true} style={style} onClick={(event) => this.handleClick(event)} />
-          </div>
-        </MuiThemeProvider>
-      )
-      this.setState({ menuValue: 1, loginComponent: localloginComponent })
-
-    }
+    var localloginComponent = [];
+    localloginComponent.push(
+      <MuiThemeProvider>
+        <div>
+          <TextField
+            hintText="Enter your username"
+            floatingLabelText="Username"
+            onChange={(event, newValue) => this.setState({ username: newValue })}
+          />
+          <br />
+          <TextField
+            type="password"
+            hintText="Enter your Password"
+            floatingLabelText="Password"
+            onChange={(event, newValue) => this.setState({ password: newValue })}
+          />
+          <br />
+          <RaisedButton label="Login" primary={true} style={style} onClick={(event) => this.handleClick(event)} />
+        </div>
+      </MuiThemeProvider>
+    )
+    this.setState({ loginComponent: localloginComponent })
   }
 
   handleClick(event) {
@@ -78,16 +71,16 @@ class Login extends Component {
       "userid": this.state.username,
       "password": this.state.password
     }
-    axios.get(apiBaseUrl + 'login', payload)
+    axios.post(apiBaseUrl + '/login', {payload})
       .then(function (response) {
         console.log(response);
-        if (response.data.code == 200) {
+        if (response.status === 200) {
           console.log("Login successfull");
-          /*var uploadScreen = [];
-          uploadScreen.push(<UploadPage appContext={self.props.appContext} role={self.state.loginRole} />)
-          self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })*/
+          var homeScreen = [];
+          homeScreen.push(<Home appContext={self.props.appContext} />)
+          self.props.appContext.setState({ loginPage: [], homeScreen: homeScreen })
         }
-        else if (response.data.code == 204) {
+        else if (response.status === 204) {
           console.log("Username and password do not match");
           alert(response.data.success)
         }
@@ -102,7 +95,6 @@ class Login extends Component {
   }
 
   handleMenuChange(value) {
-    console.log("menuvalue", value);
     var localloginComponent = [];
     localloginComponent.push(
       <MuiThemeProvider>
@@ -126,7 +118,6 @@ class Login extends Component {
     )
 
     this.setState({
-      menuValue: value,
       loginComponent: localloginComponent
     })
   }
@@ -136,7 +127,7 @@ class Login extends Component {
       <div>
         <MuiThemeProvider>
           <div>
-            <AppBar title="Login"/>
+            <AppBar title="Login" />
           </div>
         </MuiThemeProvider>
         {this.state.loginComponent}
