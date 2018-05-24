@@ -4,8 +4,9 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
+import Home from './Home'
 
-const apiBaseUrl = "http://6a8867d6.ngrok.io";
+const apiBaseUrl = "http://126fa68b.ngrok.io";
 
 
 class Login extends Component {
@@ -65,18 +66,19 @@ class Login extends Component {
   }
 
   handleClick(event) {
+    var self = this;
     var payload = {
       "userid": this.state.username,
       "password": this.state.password
     }
-    axios.post(apiBaseUrl + '/users', {payload})
+    axios.post(apiBaseUrl + '/login', {payload})
       .then(function (response) {
         console.log(response);
         if (response.status === 200) {
           console.log("Login successfull");
-          /*var uploadScreen = [];
-          uploadScreen.push(<UploadPage appContext={self.props.appContext} role={self.state.loginRole} />)
-          self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })*/
+          var homeScreen = [];
+          homeScreen.push(<Home appContext={self.props.appContext} />)
+          self.props.appContext.setState({ loginPage: [], homeScreen: homeScreen })
         }
         else if (response.status === 204) {
           console.log("Username and password do not match");
