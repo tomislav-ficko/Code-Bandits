@@ -47,6 +47,11 @@ public class UserController {
         return false;
     }
 
+    @PostMapping(path = "/login", produces = "application/json")
+    public Person login(@RequestBody Person person) {
+        return personRepository.findByUserName(person.getUserName());
+    }
+
     @DeleteMapping("/users/{userName}")
     public boolean delete(@PathVariable String userName) {
         Person person = personRepository.findByUserName(userName);
