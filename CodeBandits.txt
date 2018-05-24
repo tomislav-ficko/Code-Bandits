@@ -1,0 +1,36 @@
+Govor:
+Poštovane kolegice i kolege,
+
+
+Moje ime je Tomislav i danas imam èast u ime svoga tima Code Bandits predstaviti našu aplikaciju.
+Na izradi aplikacije su osim mene sudjelovali Tima, Marina i Bernard.
+
+
+Cilj naše aplikacije je pojednostaviti komunikaciju izmeðu ustanova za prikupljanje krvi i donora,
+olakšavanje pristupa informacijama o trenutnim zalihama i omoguæavanje korisniku uvid u podatke o njegovim donacijama.
+
+Za izradu aplikacije na frontendu su korišteni ReactJS i MaterialUI, dok je na backendu korišten Java Spring Boot uz H2 bazu podataka, 
+a komunikaciju meðu komponenata koristimo REST.
+
+Dosada smo uspjeli ostvariti pohranu, povrat i brisanje podataka o osobama, ulogiravanje u sustav kao donor ili administrator, 
+korisnièki uvid u njegove podatke u sustavu i zapoèet je rad na algoritmu automatskog pozivanja donora.
+
+... dio gdje pokazujem napravljeno
+
+Plan za buduænost bio bi omoguæiti uvid u trenutne zalihe krvi, do kraja implementirati algoritam, administratoru omoguæiti 
+slanje obavijesti i upita donorima i korisnicima omoguæiti primanje obavijesti na njihovim ureðajima.
+
+
+
+Hvala na pažnji.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Vizija rješenja zadatka i objasniti korištene tehnologije +
+Što smo postigli (algoritam i funkcije aplikacije) +
+Koji su planovi za buduænost +
+
+--------------------------------------------------------------------------------------------------------------------------------------
+GDPR:
+By acknowledgeing this form you agree for us to use your personal information in order to let you 
+know about any future promotions and events which might interest you.
