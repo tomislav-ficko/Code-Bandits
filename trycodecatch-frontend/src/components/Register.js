@@ -9,8 +9,27 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import Login from './Login';
+import './Register.css';
+
+const apiBaseUrl = "http://localhost:4000/api/";
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
 
 class Register extends Component {
   constructor(props) {
@@ -34,13 +53,11 @@ class Register extends Component {
   }
 
   handleClick(event) {
-    var apiBaseUrl = "http://localhost:4000/api/";
     var self = this;
     //To be done:check for empty values before hitting submit
     if (this.state.first_name.length > 0 && this.state.last_name.length > 0 && this.state.phone.length > 0
       && this.state.email.length > 0 && this.state.gender.length > 0 && this.state.age.length > 0
-      && this.state.location.length > 0 && this.state.blood_type.length > 0 && this.state.gdpr.length > 0
-      && this.state.password.length > 0) {
+      && this.state.location.length > 0 && this.state.gdpr.length > 0 && this.state.password.length > 0) {
       var payload = {
         "first_name": this.state.first_name,
         "last_name": this.state.last_name,
@@ -136,8 +153,8 @@ class Register extends Component {
                 value={this.state.gender}
                 onChange={this.handleChangeGender}
               >
-                <FormControlLabel value="female" control={<Radio />} label="Female" />
-                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                <FormControlLabel value="F" control={<Radio />} label="Female" />
+                <FormControlLabel value="M" control={<Radio />} label="Male" />
               </RadioGroup>
             </FormControl>
             <br />
@@ -164,22 +181,21 @@ class Register extends Component {
             />
             <br />
             <br />
-            <FormControl component="fieldset" >
-              <FormLabel component="legend">Blood type*</FormLabel>
-              <RadioGroup
-                row
+            <FormControl className="formControl">
+              <InputLabel >Blood type</InputLabel> <br />
+              <Select
                 value={this.state.blood_type}
                 onChange={this.handleChangeBloodType}
               >
-                <FormControlLabel value="O_minus" control={<Radio />} label="O-" />
-                <FormControlLabel value="O_plus" control={<Radio />} label="O+" />
-                <FormControlLabel value="A_minus" control={<Radio />} label="A-" />
-                <FormControlLabel value="A_plus" control={<Radio />} label="A+" />
-                <FormControlLabel value="B_minus" control={<Radio />} label="B-" />
-                <FormControlLabel value="B_plus" control={<Radio />} label="B+" />
-                <FormControlLabel value="AB_minus" control={<Radio />} label="AB-" />
-                <FormControlLabel value="AB_plus" control={<Radio />} label="AB+" />
-              </RadioGroup>
+                <option value="O_minus">O-</option>
+                <option value="O_plus">O+</option>
+                <option value="A_minus">A-</option>
+                <option value="A_plus">A+</option>
+                <option value="B_minus">B-</option>
+                <option value="B_Plus">B+</option>
+                <option value="AB_minus">AB-</option>
+                <option value="AB_plus">AB+</option>
+              </Select>
             </FormControl>
             <br />
             <h4>
