@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,7 +17,7 @@ public class UserController {
     private PersonRepository personRepository;
 
     @GetMapping("/users")
-    public List<Person> getAllUsers(@PathVariable String userName) {
+    public List<Person> getAllUsers() {
         return Lists.newArrayList(personRepository.findAll());
     }
 
@@ -37,22 +36,25 @@ public class UserController {
         return personRepository.findByBloodType(bloodType);
     }
 
-    @PostMapping
+    @PostMapping(path = "/users", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create(@RequestBody Person person) {
-        if (null == personRepository.findByUserName(person.getUserName())) {
-            return personRepository.save(person);
+    public boolean create(@RequestBody Person person) {
+        Person existingPerson = personRepository.findByUserName(person.getUserName());
+        if (null == existingPerson) {
+            personRepository.save(person);
+            return true;
         }
-        return null;
+        return false;
     }
 
-    @DeleteMapping("/{userName}")
-    public void delete(@PathVariable String userName) {
+    @DeleteMapping("/users/{userName}")
+    public boolean delete(@PathVariable String userName) {
         Person person = personRepository.findByUserName(userName);
         if (person != null) {
             personRepository.delete(person);
+            return true;
         }
-
+        return false;
     }
 
 //    @PutMapping("/{id}")
